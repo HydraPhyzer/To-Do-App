@@ -225,6 +225,16 @@ let PGetter=()=>
         });
     }
 }
+document.querySelector('.Clear').addEventListener("click" , ()=>
+{
+    localStorage.clear();
+    document.querySelector('#A').innerHTML='';
+    document.querySelector('#B').innerHTML='';
+    document.querySelector('#C').innerHTML='';
+    Getter();
+    DGetter();
+    PGetter();
+});
 Getter();
 DGetter();
 PGetter();

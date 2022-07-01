@@ -8,7 +8,7 @@
 body
 {
     min-height: 100vh;
-    background-color: #34495e;
+    background-color: #40739e;
 }
 .Main , body
 {
@@ -19,7 +19,10 @@ body
 .Main
 {
     margin-top: 10%;
-    background-color: #e74c3c;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+
     padding: 10px;
     border-radius: 5px;
     position: relative;
@@ -99,7 +102,9 @@ button:focus
     width: 100%;
     left: 0;
     margin: 20px 0px;
-    background-color: #e74c3c;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
     border-radius: 5px;
     padding: 10px;
     color: white;
@@ -138,4 +143,13 @@ label
 #C input , #B input
 {
     visibility: hidden;
+}
+.nav-link 
+{
+    padding: .5rem !important;
+}
+.Clear
+{
+    background-color: #f1c40f !important;
+    color: #34495e !important;
 }
