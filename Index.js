@@ -40,6 +40,25 @@ let CompletedStore=()=>
 
     localStorage.setItem("Completed-Notes" , JSON.stringify(AllArray));
 }
+let PendingStore=()=>
+{
+    AllArray=[];
+    let AllTodo=document.querySelectorAll('#A .Todo label');
+    let AllTodoChk=document.querySelectorAll('#A .Todo input');
+
+    AllTodo.forEach((Elem , Ind)=>
+    {
+        let Obj=
+        {
+            Status:AllTodoChk[Ind].value,
+            Text:Elem.innerText,
+        }
+        if(AllTodoChk[Ind].value=="on")
+        AllArray.push(Obj);
+    });
+
+    localStorage.setItem("Pending-Notes" , JSON.stringify(AllArray));
+}
 
 let Todos = () => {
     let NewTodo = document.createElement('div');
@@ -60,10 +79,13 @@ let Todos = () => {
     document.querySelector('#A').prepend(NewTodo);
 
     localStorage.removeItem('All-Notes');
+    localStorage.removeItem('Pending-Notes');
     AllStore();
 }
 document.querySelector('.fa-circle-plus').addEventListener("click", () => {
     Todos();
+    PendingStore();
+    PGetter();
     Checker();
 });
 
@@ -81,9 +103,13 @@ function Checker()
             
             localStorage.removeItem('All-Notes');
             localStorage.removeItem('Completed-Notes');
+            localStorage.removeItem('Pending-Notes');
+            PendingStore();
             CompletedStore();
             DGetter();
+            PGetter();
             AllStore();
+            DisplayPendingTodo();
         });
     });
 }
@@ -133,13 +159,29 @@ let DisplayAllCompletedTodo=(Para='' , Ind)=>
     
     let Box=document.querySelectorAll('#C .Box');
     let Labels=document.querySelectorAll('#C .Lab');
+}
+let DisplayPendingTodo=(Para='' , Ind)=>
+{
+    let NewTodo = document.createElement('div');
+    NewTodo.classList.add('Todo');
 
+    let HTMLData =
+    `
+    <input type="checkbox" class="Box" value=${Para.Status}>
+    <label class="Lab">${Para.Text}</label>
+    `
+    
+    NewTodo.insertAdjacentHTML("afterbegin", HTMLData);
+
+    
+    let Box=document.querySelectorAll('#A .Box');
+    let Labels=document.querySelectorAll('#A .Lab');
+    
     Box.forEach((Elem , Inde)=>
     {
-        if(Box[Inde].value=="true")
+        if(Box[Inde].value=="on")
         {
-            Labels[Inde].style.textDecoration="line-through"
-            Labels[Inde].style.textDecorationColor="black"
+            document.querySelector('#B').append(NewTodo);
         }
     })
 }
@@ -168,6 +210,19 @@ let DGetter=()=>
         });
     }
 }
+let PGetter=()=>
+{
+    let GetAllTodo=JSON.parse(localStorage.getItem('Pending-Notes'));
+    if(GetAllTodo)
+    {
+        document.querySelector('#B').innerHTML='';
+        GetAllTodo.forEach((Elem , Ind)=>
+        {
+            DisplayPendingTodo(Elem , Ind);
+        });
+    }
+}
 Getter();
 DGetter();
+PGetter();
 Checker();
