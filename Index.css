@@ -120,7 +120,7 @@ label , input[type='checkbox']
 }
 input:checked
 {
-    background-color: #f1c40f;
+    background-color: yellow;
 }
 .Todo
 {
@@ -135,7 +135,7 @@ label
 {
     word-wrap: break-word;
 }
-#C input
+#C input , #B input
 {
     visibility: hidden;
 }

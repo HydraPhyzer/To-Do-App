@@ -99,6 +99,7 @@ function Checker()
         Elem.addEventListener("change", () => {
             Arr2[Ind].style.textDecoration = "line-through";
             Arr2[Ind].style.textDecorationColor = "black";
+            Arr2[Ind].style.textDecorationThickness="3px"
             Arr1[Ind].value="true";
             
             localStorage.removeItem('All-Notes');
@@ -137,8 +138,10 @@ let DisplayAllTodo=(Para='' , Ind)=>
     {
         if(Box[Inde].value=="true")
         {
+            Box[Inde].style.backgroundColor="yellow"
             Labels[Inde].style.textDecoration="line-through"
             Labels[Inde].style.textDecorationColor="black"
+            Labels[Inde].style.textDecorationThickness="3px"
         }
     })
 }
