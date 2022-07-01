@@ -135,3 +135,7 @@ label
 {
     word-wrap: break-word;
 }
+#C input
+{
+    visibility: hidden;
+}

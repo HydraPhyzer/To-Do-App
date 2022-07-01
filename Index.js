@@ -6,8 +6,8 @@ function GetValue() {
 let AllStore=()=>
 {
     AllArray=[];
-    let AllTodo=document.querySelectorAll('.Todo label');
-    let AllTodoChk=document.querySelectorAll('.Todo input');
+    let AllTodo=document.querySelectorAll('#A .Todo label');
+    let AllTodoChk=document.querySelectorAll('#A .Todo input');
 
     AllTodo.forEach((Elem , Ind)=>
     {
@@ -24,8 +24,8 @@ let AllStore=()=>
 let CompletedStore=()=>
 {
     AllArray=[];
-    let AllTodo=document.querySelectorAll('.Todo label');
-    let AllTodoChk=document.querySelectorAll('.Todo input');
+    let AllTodo=document.querySelectorAll('#A .Todo label');
+    let AllTodoChk=document.querySelectorAll('#A .Todo input');
 
     AllTodo.forEach((Elem , Ind)=>
     {
@@ -59,26 +59,30 @@ let Todos = () => {
     NewTodo.insertAdjacentHTML("afterbegin", HTMLData);
     document.querySelector('#A').prepend(NewTodo);
 
-    localStorage.clear();
+    localStorage.removeItem('All-Notes');
     AllStore();
 }
 document.querySelector('.fa-circle-plus').addEventListener("click", () => {
     Todos();
+    Checker();
 });
 
 
 function Checker()
 {
-    let Arr1 = document.querySelectorAll('.Box');
+    let Arr1 = document.querySelectorAll('#A .Box');
     
     Arr1.forEach((Elem, Ind) => {
-        let Arr2 = document.querySelectorAll('.Lab');
+        let Arr2 = document.querySelectorAll('#A .Lab');
         Elem.addEventListener("change", () => {
-            Arr1[Ind].value="true";
             Arr2[Ind].style.textDecoration = "line-through";
             Arr2[Ind].style.textDecorationColor = "black";
-
-            localStorage.clear();
+            Arr1[Ind].value="true";
+            
+            localStorage.removeItem('All-Notes');
+            localStorage.removeItem('Completed-Notes');
+            CompletedStore();
+            DGetter();
             AllStore();
         });
     });
@@ -111,7 +115,33 @@ let DisplayAllTodo=(Para='' , Ind)=>
             Labels[Inde].style.textDecorationColor="black"
         }
     })
-    CompletedStore();
+}
+let DisplayAllCompletedTodo=(Para='' , Ind)=>
+{
+    let NewTodo = document.createElement('div');
+    NewTodo.classList.add('Todo');
+
+    let HTMLData =
+    `
+    <input type="checkbox" class="Box" value=${Para.Status}>
+    <label class="Lab">${Para.Text}</label>
+    `
+    
+    NewTodo.insertAdjacentHTML("afterbegin", HTMLData);
+
+    document.querySelector('#C').append(NewTodo);
+    
+    let Box=document.querySelectorAll('#C .Box');
+    let Labels=document.querySelectorAll('#C .Lab');
+
+    Box.forEach((Elem , Inde)=>
+    {
+        if(Box[Inde].value=="true")
+        {
+            Labels[Inde].style.textDecoration="line-through"
+            Labels[Inde].style.textDecorationColor="black"
+        }
+    })
 }
 
 let Getter=()=>
@@ -119,13 +149,25 @@ let Getter=()=>
     let GetAllTodo=JSON.parse(localStorage.getItem('All-Notes'));
     if(GetAllTodo)
     {
-        document.querySelector('.Todos').innerHTML='';
+        document.querySelector('#A').innerHTML='';
         GetAllTodo.forEach((Elem , Ind)=>
         {
             DisplayAllTodo(Elem , Ind);
         });
     }
 }
+let DGetter=()=>
+{
+    let GetAllTodo=JSON.parse(localStorage.getItem('Completed-Notes'));
+    if(GetAllTodo)
+    {
+        document.querySelector('#C').innerHTML='';
+        GetAllTodo.forEach((Elem , Ind)=>
+        {
+            DisplayAllCompletedTodo(Elem , Ind);
+        });
+    }
+}
 Getter();
-CompletedStore()
+DGetter();
 Checker();
